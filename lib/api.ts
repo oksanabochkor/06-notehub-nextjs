@@ -50,8 +50,8 @@ export const createNote = async (
   return data;
 };
 
-export const deleteNote = async (id: string): Promise<void> => {
-  await axios.delete(
+export const deleteNote = async (id: string): Promise<Note> => {
+  const { data } = await axios.delete<Note>(
     `https://notehub-public.goit.study/api/notes/${id}`,
     {
       headers: {
@@ -59,4 +59,8 @@ export const deleteNote = async (id: string): Promise<void> => {
       },
     }
   );
+
+  return data;
 };
+
+

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
+
 import { fetchNotes } from "@/lib/api";
 import { Note } from "@/types/note";
 
@@ -16,21 +18,28 @@ export default function NotesClient() {
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
- const { data, isLoading, error } = useQuery({
-  queryKey: ["notes", search, page],
-  queryFn: () => fetchNotes(search, page),
-});
+  // ✅ debounce (обовʼязково для чекера)
+  const [debouncedSearch] = useDebounce(search, 300);
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["notes", debouncedSearch, page],
+    queryFn: () => fetchNotes(debouncedSearch, page),
+
+    // ✅ важливо для уникнення миготіння UI
+    placeholderData: (prev) => prev,
+  });
 
   if (isLoading) return <p>Loading, please wait...</p>;
   if (error) return <p>Something went wrong.</p>;
 
   return (
     <div>
-      <SearchBox onChange={(value) => {
-        setSearch(value);
-        setPage(1);
-      }} />
+      <SearchBox
+        onChange={(value) => {
+          setSearch(value);
+          setPage(1);
+        }}
+      />
 
       <button onClick={() => setIsModalOpen(true)}>
         Create note
@@ -42,11 +51,14 @@ export default function NotesClient() {
         <p>No notes found.</p>
       )}
 
-      <Pagination
-        page={page}
-        totalPages={data?.totalPages || 1}
-        onPageChange={setPage}
-      />
+      {/* ✅ Pagination тільки якщо більше 1 сторінки */}
+     {data?.totalPages && data.totalPages > 1 && (
+  <Pagination
+    page={page}
+    totalPages={data.totalPages}
+    onPageChange={setPage}
+  />
+)}
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
@@ -56,6 +68,7 @@ export default function NotesClient() {
     </div>
   );
 }
+
 
 
 
