@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 // 🔐 базовий URL (як був у тебе)
-axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
+axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 // 🔑 токен
 const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 // 🔹 отримати всі нотатки (з пошуком)
-export const fetchNotes = async (search: string = '') => {
-  const response = await axios.get('/notes', {
+export const fetchNotes = async (search: string = "") => {
+  const response = await axios.get("/notes", {
     params: {
       search,
     },
@@ -26,7 +26,7 @@ export const createNote = async (note: {
   content: string;
   tag: string;
 }) => {
-  const response = await axios.post('/notes', note, {
+  const response = await axios.post("/notes", note, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

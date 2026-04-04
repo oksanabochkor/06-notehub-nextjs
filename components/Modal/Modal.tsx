@@ -35,7 +35,7 @@ const Modal = ({ onClose, children }: ModalProps) => {
         {children}
       </div>
     </div>,
-    root
+    root,
   );
 };
 

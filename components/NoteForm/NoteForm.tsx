@@ -1,9 +1,8 @@
-
-'use client';
+"use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 import css from "./NoteForm.module.css";
 import { createNote } from "../../lib/api";
@@ -57,7 +56,6 @@ const NoteForm = ({ onClose }: NoteFormProps) => {
     >
       {({ isSubmitting }) => (
         <Form className={css.form}>
-          
           {/* TITLE */}
           <div className={css.formGroup}>
             <label>Title</label>
@@ -69,7 +67,11 @@ const NoteForm = ({ onClose }: NoteFormProps) => {
           <div className={css.formGroup}>
             <label>Content</label>
             <Field as="textarea" name="content" className={css.textarea} />
-            <ErrorMessage name="content" component="span" className={css.error} />
+            <ErrorMessage
+              name="content"
+              component="span"
+              className={css.error}
+            />
           </div>
 
           {/* TAG */}
@@ -103,7 +105,6 @@ const NoteForm = ({ onClose }: NoteFormProps) => {
               Create note
             </button>
           </div>
-
         </Form>
       )}
     </Formik>
