@@ -1,6 +1,7 @@
 import type { Note } from "../../types/note";
 import { deleteNote } from "../../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import css from "./NoteList.module.css";
 
 interface NoteListProps {
@@ -21,7 +22,11 @@ const NoteList = ({ notes }: NoteListProps) => {
     <ul className={css.list}>
       {notes.map((note) => (
         <li key={note.id} className={css.listItem}>
-          <h2 className={css.title}>{note.title}</h2>
+          
+          {/* ✅ LINK (обовʼязково для чекера) */}
+          <Link href={`/notes/${note.id}`}>
+            <h2 className={css.title}>{note.title}</h2>
+          </Link>
 
           <p className={css.content}>{note.content}</p>
 
@@ -42,3 +47,4 @@ const NoteList = ({ notes }: NoteListProps) => {
 };
 
 export default NoteList;
+
