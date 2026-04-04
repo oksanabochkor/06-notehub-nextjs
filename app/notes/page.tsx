@@ -9,9 +9,12 @@ import { fetchNotes } from "@/lib/api";
 export default async function NotesPage() {
   const queryClient = new QueryClient();
 
+  const search = "";
+  const page = 1;
+
   await queryClient.prefetchQuery({
-    queryKey: ["notes", ""],
-    queryFn: () => fetchNotes(""),
+    queryKey: ["notes", search, page],
+    queryFn: () => fetchNotes(search, page),
   });
 
   return (
@@ -20,3 +23,4 @@ export default async function NotesPage() {
     </HydrationBoundary>
   );
 }
+
